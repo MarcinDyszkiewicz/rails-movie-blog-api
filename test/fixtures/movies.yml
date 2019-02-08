@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  slug: MyString
+  title: MyString
+  year: 1
+  released: 2019-02-08
+  runtime: 1
+  plot: MyText
+  review: MyText
+  poster: MyString
+  rotten_tomatoes_rating: MyString
+  metacritic_rating: MyString
+  imdb_raiting: MyString
+
+two:
+  slug: MyString
+  title: MyString
+  year: 1
+  released: 2019-02-08
+  runtime: 1
+  plot: MyText
+  review: MyText
+  poster: MyString
+  rotten_tomatoes_rating: MyString
+  metacritic_rating: MyString
+  imdb_raiting: MyString
