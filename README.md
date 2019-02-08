@@ -12,5 +12,10 @@ To Start the application:
 2. docker-compose up -d
 3. docker-compose run web rake db:create
 
-To run any command inside container run:
+To enter the container run:
+
 docker exec -it movieblog_web_1 /bin/bash
+
+To migrate database run this inside contianer:
+
+rails db:migrate
