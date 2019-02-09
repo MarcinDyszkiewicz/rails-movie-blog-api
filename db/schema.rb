@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_02_09_155233) do
 
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "movie_id", null: false
+    t.bigint "movie_id"
     t.string "slug", null: false
     t.text "title", null: false
     t.text "body", null: false

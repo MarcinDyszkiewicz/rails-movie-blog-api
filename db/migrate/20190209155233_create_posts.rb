@@ -2,7 +2,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
   def change
     create_table :posts do |t|
       t.belongs_to :user, index: true, null: false
-      t.belongs_to :movie, index: true, null: false
+      t.belongs_to :movie, index: true
       t.string :slug, null: false, uniquess: true
       t.text :title, null: false
       t.text :body, null: false
