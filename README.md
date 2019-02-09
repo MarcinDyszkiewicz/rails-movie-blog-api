@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Movie Blog Api
 
-Things you may want to cover:
+Ruby version '2.5.3'
+Rails version '5.2.2'
+Postgresql version 2.29.2
 
-* Ruby version
+To Start the application:
 
-* System dependencies
+1. docker-compose build
+2. docker-compose up -d
+3. docker-compose run web rake db:create
 
-* Configuration
+To enter the container run:
 
-* Database creation
+docker exec -it movieblog_web_1 /bin/bash
 
-* Database initialization
+To migrate database run this inside contianer:
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+rails db:migrate
