@@ -1,10 +1,9 @@
-class Api::V1::MovieControllerController < ApplicationController
+class Api::V1::MovieController < ApplicationController
 
 
 
 
-
-  private
+private
 
   # movie strong params
   # @return [Object]

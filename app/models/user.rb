@@ -6,4 +6,7 @@ class User < ApplicationRecord
          :lockable,
          :jwt_authenticatable,
          jwt_revocation_strategy: JwtBlacklist
+
+  #relations
+  has_many :posts
 end

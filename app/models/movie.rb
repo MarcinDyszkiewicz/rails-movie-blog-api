@@ -1,4 +1,7 @@
 class Movie < ApplicationRecord
+  #relations
+  has_many :posts
+
   # validations
   validates_presence_of :title, :slug
   validates :title, length: { minimum: 2, maximum: 255 },uniqueness: { scope: :year, message: "This movie already exists in database", case_sensitive: false }
