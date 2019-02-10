@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       resources :post
       resources :actor
       resources :director
-
+      resources :comment
       end
   end
 end

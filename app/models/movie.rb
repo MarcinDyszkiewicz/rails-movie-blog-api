@@ -1,6 +1,7 @@
 class Movie < ApplicationRecord
   #relations
   has_many :posts
+  has_many :comments, as: :commentable
 
   # validations
   validates_presence_of :title, :slug, :year

@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   #relations
   belongs_to :user, optional: true
   belongs_to :movie, optional: true
+  has_many :comments, as: :commentable
 
   #validation
   validates_presence_of :title, :slug, :body, :image
