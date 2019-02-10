@@ -1,13 +1,13 @@
 class Api::V1::MovieController < ApplicationController
 
 def index
-  movies = Movie.all
+  movies = Movie.includes(:actors).limit(20)
   render json: {data: movies, message: "Loaded all movies", success: true}, status: :ok
 end
 
 def create
-  movie = Movie.new(movie_params)
-  if movie.save
+  movie = Movie.new_with_relations(movie_params, params[:actors])
+  if movie
     render json: {data: movie, message: "Movie created", success: true}, status: :created
   else
     render json: {data: nil, message: movie.errors, success: false}, status: :unprocessable_entity
@@ -43,5 +43,4 @@ private
   def movie_params
     params.require(:movie).permit(:slug, :title, :year, :released, :runtime, :plot, :review, :poster, :rotten_tomatoes_rating, :metacritic_rating, :imdb_raiting)
   end
-
 end
