@@ -2,19 +2,40 @@ class Api::V1::MovieController < ApplicationController
 
 def index
   movies = Movie.all
-
   render json: {data: movies, message: "Loaded all movies", success: true}, status: :ok
 end
 
 def create
-  movie = Movie.create(movie_params)
+  movie = Movie.new(movie_params)
   if movie.save
-    render json: {data: movie, message: "Loaded all movies", success: true}, status: :ok
+    render json: {data: movie, message: "Movie created", success: true}, status: :created
   else
     render json: {data: nil, message: movie.errors, success: false}, status: :unprocessable_entity
-    end
+  end
 end
 
+def update
+  movie = Movie.find(params[:id])
+  if movie.update!(movie_params)
+    render json: {data: movie, message: "Movie updated", success: true}, status: :created
+  else
+    render json: {data: nil, message: movie.errors, success: false}, status: :unprocessable_entity
+  end
+end
+
+def show
+  movie = Movie.find(params[:id])
+  render json: {data: movie, message: "Loaded movie", success: true}, status: :ok
+end
+
+def destroy
+  movie = Movie.find(params[:id])
+  if movie.delete
+    render json: {data: nil, message: "Movie deleted", success: true}, status: :ok
+  else
+    render json: {data: nil, message: movie.errors, success: false}, status: :unprocessable_entity
+  end
+end
 
 private
   # movie strong params
