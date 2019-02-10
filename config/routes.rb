@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :movie
       resources :post
+      resources :actor
+      resources :director
 
       end
   end

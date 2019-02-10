@@ -3,5 +3,5 @@ class Actor < ApplicationRecord
   has_and_belongs_to_many :movies, optional: true
 
   validates_presence_of :full_name, :slug
-  validates :slug, uniquess: true
+  validates :slug, uniqueness: { case_sensitive: false }
 end

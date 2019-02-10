@@ -4,5 +4,5 @@ class Director < ApplicationRecord
 
   #validations
   validates_presence_of :full_name, :slug
-  validates :slug, uniquess: true
+  validates :slug, uniqueness: { case_sensitive: false }
 end
