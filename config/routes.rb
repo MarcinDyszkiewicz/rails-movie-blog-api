@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :actor
       resources :director
       resources :comment
+      resources :genre
       end
   end
 end

@@ -1,6 +1,6 @@
 class Api::V1::ActorController < ApplicationController
   def index
-    actors = Actor.all
+    actors = Actor.includes(:movies)
     render json: {data: actors, message: "Loaded all actors", success: true}, status: :ok
   end
 

@@ -21,15 +21,28 @@ class Movie < ApplicationRecord
   validates :review, length: { minimum: 10, maximum: 500 }
   validates :poster, length: { minimum: 2, maximum: 500 }
 
-  def self.new_with_relations(movie_params, actors)
-    actor_ids = []
-    actors.each do |a|
-      actor = Actor.find_or_create_by!(full_name: a[:full_name])
-      actor_ids.push(actor.id)
-    end
-    # actor = Actor.find_or_create_by(full_name: actor_params[:full_name])
+  def self.new_with_relations(movie_params, actors, director, genres)
     movie = Movie.create!(movie_params)
-    movie.actor_ids = (actor_ids)
+
+    if actors
+      actor_ids = []
+      actors.each do |actor|
+        actor = Actor.find_or_create_by!(full_name: actor[:full_name])
+        actor_ids.push(actor.id)
+      end
+      movie.actor_ids = (actor_ids)
+    end
+
+    if director
+      new_director = Director.find_or_create_by!(full_name: director[:full_name])
+      movie.directors << new_director
+    end
+
+    if genres
+      # genre_ids = []
+      # genres.each { ||  }
+      movie.genre_ids = (genres)
+    end
 
     return movie
   end

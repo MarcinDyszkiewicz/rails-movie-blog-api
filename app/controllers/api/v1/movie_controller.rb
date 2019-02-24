@@ -6,7 +6,7 @@ def index
 end
 
 def create
-  movie = Movie.new_with_relations(movie_params, params[:actors])
+  movie = Movie.new_with_relations(movie_params, params[:actors], params[:director], params[:genres])
   if movie
     render json: {data: movie, message: "Movie created", success: true}, status: :created
   else
