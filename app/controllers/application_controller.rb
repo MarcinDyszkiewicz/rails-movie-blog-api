@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+  include ActionView::Rendering
+  include ActionController::ImplicitRender
+  include ActionView::Layouts
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource

@@ -1,7 +1,10 @@
-class Api::V1::ActorController < ApplicationController
+class Api::V1::ActorsController < ApplicationController
   def index
     actors = Actor.includes(:movies)
-    render json: {data: actors, message: "Loaded all actors", success: true}, status: :ok
+
+    # render jsonapi: actors, serializer: Api::V1::ActorSerializer
+    json_string = ActorSerializer.new(actors).serialized_json
+    render json: {data: json_string, message: "Loaded all actors", success: true}, status: :ok
   end
 
   def create
@@ -23,8 +26,11 @@ class Api::V1::ActorController < ApplicationController
   end
 
   def show
-    actor = Actor.find(params[:id])
-    render json: {data: actor, message: "Loaded actor", success: true}, status: :ok
+    @actor = Actor.find(params[:id])
+
+
+    # render :'api/v1/actors/show'
+    # render json: {data: actor.as_json(only: [:id, :full_name], include: [:movies]), message: "Loaded actor", success: true}, status: :ok
   end
 
   def destroy
