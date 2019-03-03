@@ -1,10 +1,10 @@
 class Comment < ApplicationRecord
   #relations
   belongs_to :commentable, polymorphic: true
-  belongs_to :user, optional: true
+  belongs_to :user
 
   #validations
-  validates :body, presence: true, length: { minimum: 5, maximum: 2000}
+  validates :body, presence: true, length: { minimum: 5, maximum: 2000}, uniqueness: { scope: [:user, :commentable_type, :commentable_id], message: "You Can't duplicate comments", case_sensitive: false }
 
   def self.new_for_post_or_movie(comment_params, post_id = nil, movie_id = nil )
     body = comment_params[:body]
@@ -33,6 +33,14 @@ class Comment < ApplicationRecord
       end
 
       return movie.comments.new(comment_params)
+    end
+  end
+
+  def self.new_for_movie(comment_params, movie_id)
+    movie = Movie.find(movie_id)
+
+    if movie
+
     end
   end
 

@@ -1,4 +1,4 @@
-class Api::V1::PostController < ApplicationController
+class Api::V1::PostsController < ApplicationController
 
 def index
   posts = Post.all
@@ -25,7 +25,7 @@ end
 
 def show
   post = Post.find(params[:id])
-  render json: {data: post, message: "Loaded post", success: true}, status: :ok
+  render json: {data: [post, post.comments], message: "Loaded post", success: true}, status: :ok
 end
 
 def destroy

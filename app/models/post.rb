@@ -44,10 +44,10 @@ class Post < ApplicationRecord
 
   private
 
-  def find_or_create_tags(tags)
+  def self.find_or_create_tags(tags)
     tag_ids = []
     tags.each do |tag|
-      tag = Actor.find_or_create_by!(name: tag[:name])
+      tag = Actor.find_or_create_by!(name: tag)
       tag_ids.push(tag.id)
     end
     tag_ids

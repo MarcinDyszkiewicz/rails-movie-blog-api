@@ -9,4 +9,5 @@ RSpec.describe Post, type: :model do
   it { should validate_presence_of(:body) }
   it { should validate_presence_of(:image) }
 
+  it { should have_many(:comments) }
 end

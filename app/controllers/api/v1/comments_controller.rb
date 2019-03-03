@@ -1,15 +1,20 @@
-class Api::V1::CommentController < ApplicationController
+class Api::V1::CommentsController < ApplicationController
+  # before_action find_commentable on: :index
+
   def index
-    comments = Comment.all
-    render json: {data: comments, message: "Loaded all comments", success: true}, status: :ok
+    @commentable_model = find_commentable
+    @comments = @commentable_model.comments
+    render json: {data: @comments, message: "Loaded all comments", success: true}, status: :ok
   end
 
   def create
-    comment = Comment.new_for_post_or_movie(comment_params, params[:post_id], params[:movie_id])
-    if comment.save
-      render json: {data: comment, message: "Comment created", success: true}, status: :created
+    commentable_model = find_commentable
+    @comment = commentable_model.comments.new(comment_params)
+    @comment.user = current_user
+    if @comment.save
+      render json: {data: @comment, message: "Comment created", success: true}, status: :created
     else
-      render json: {data: nil, message: comment.errors, success: false}, status: :unprocessable_entity
+      render json: {data: nil, message: @comment.errors, success: false}, status: :unprocessable_entity
     end
   end
 
@@ -50,5 +55,16 @@ class Api::V1::CommentController < ApplicationController
   # @return [Object]
   def comment_params
     params.require(:comment).permit(:user_id, :post_id, :movie_id, :comment_parent_id, :body)
+  end
+
+  # @return [Model]
+  def find_commentable
+    if params[:movie_id]
+      @commentable_model = Movie.find(params[:movie_id])
+    elsif params[:post_id]
+      @commentable_model = Post.find(params[:post_id])
+    else
+      raise Exception.new("Not found")
+    end
   end
 end

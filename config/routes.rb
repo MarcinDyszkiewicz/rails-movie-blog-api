@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :likes
   devise_for :users,
               path: '',
                   path_names: {
@@ -14,12 +15,16 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, :defaults => {:format => :json} do
     namespace :v1 do
-      resources :movies
-      resources :post
+      concern :commentable do
+        resources :comments, except: :show
+      end
+      resources :movies, concerns: :commentable
+      resources :posts, concerns: :commentable
       resources :actors
       resources :director
-      resources :comment
-      resources :genre
+      resources :likes
+
+      resources :genres
       end
   end
 end

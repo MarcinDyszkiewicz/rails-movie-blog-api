@@ -1,4 +1,4 @@
-class Api::V1::GenreController < ApplicationController
+class Api::V1::GenresController < ApplicationController
   def index
     genres = Genre.includes(:movies)
     render json: {data: genres, message: "Loaded all genres", success: true}, status: :ok
