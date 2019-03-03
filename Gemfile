@@ -26,7 +26,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
+gem 'rack-cors', require: 'rack/cors'
 
 # my gems
 gem 'validates_timeliness', '~> 5.0.0.alpha3'

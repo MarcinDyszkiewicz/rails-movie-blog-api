@@ -6,11 +6,11 @@ def index
 end
 
 def create
-  post = Post.new(post_params)
-  if post.save
+  @post = Post.new_with_relations(post_params, params[:movie_id], params[:tags])
+  if @post
     render json: {data: post, message: "Post created", success: true}, status: :created
   else
-    render json: {data: nil, message: post.errors, success: false}, status: :unprocessable_entity
+    render json: {data: nil, message: @post.errors, success: false}, status: :unprocessable_entity
   end
 end
 

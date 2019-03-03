@@ -23,10 +23,33 @@ class Post < ApplicationRecord
   # validates :catchy_title,
   validates :is_published, inclusion: { in: [true, false] }
   validates :published_at, allow_nil: true, :timeliness => { :type => :date}
+  validates_associated :tags
 
 
+  def self.new_with_relations(post_params, movie_id, tags)
+    post = Post.create!(post_params)
+
+    if movie_id
+      post.movie << movie_id
+    end
+
+    if tags
+      tag_ids = find_or_create_tags(tags)
+      post.tag_ids = (tag_ids)
+    end
+
+    return post
+  end
 
 
+  private
 
-
+  def find_or_create_tags(tags)
+    tag_ids = []
+    tags.each do |tag|
+      tag = Actor.find_or_create_by!(name: tag[:name])
+      tag_ids.push(tag.id)
+    end
+    tag_ids
+  end
 end

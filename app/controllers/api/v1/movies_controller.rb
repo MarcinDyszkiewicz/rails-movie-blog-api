@@ -6,7 +6,7 @@ def index
 end
 
 def create
-  @movie = Movie.new_with_relations(movie_params, params[:actors], params[:director], params[:genres])
+  @movie = Movie.new_with_relations(movie_params, params[:actors], params[:director], params[:genre_ids])
   if @movie
     @message = "Movie Created"
     render :show, status: :created
@@ -17,7 +17,7 @@ end
 
 def update
   @movie = Movie.find(params[:id])
-  if @movie.update!(movie_params)
+  if @movie.update_with_relations(movie_params, params[:actors], params[:director], params[:genre_ids])
     @message = "Movie Updated"
     render :show, status: :created
   else
