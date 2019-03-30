@@ -2,6 +2,8 @@
   <dictionary name="marcin">
     <words>
       <w>commentable</w>
+      <w>imdb</w>
+      <w>omdb</w>
     </words>
   </dictionary>
 </component>

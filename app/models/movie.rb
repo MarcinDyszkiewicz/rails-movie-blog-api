@@ -20,8 +20,19 @@ class Movie < ApplicationRecord
   validates :plot, length: {minimum: 10, maximum: 800}
   validates :review,  length: {minimum: 10, maximum: 500}, allow_blank: true
   validates :poster, length: {minimum: 2, maximum: 500}
+  validates :imdb_id, length: { is: 9 }, format: {with: /tt\d{7}/}, uniqueness: true, allow_nil: true
   validates_associated :actors
   validates_associated :directors
+
+  #callbacks
+  before_validation do
+    unless self.slug
+      self.slug = self.title + self.year.to_s
+      self.slug.parameterize
+    end
+  end
+
+  STRONG_PARAMS = :slug, :title, :year, :released, :runtime, :plot, :review, :poster, :rotten_tomatoes_rating, :metacritic_rating, :imdb_raiting, :imdb_id
 
   def self.new_with_relations(movie_params, actors, director, genre_ids)
     movie = Movie.create!(movie_params)

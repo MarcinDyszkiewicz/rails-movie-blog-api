@@ -4,4 +4,11 @@ class Tag < ApplicationRecord
 
   #validation
   validates_presence_of :name, :slug
+  validates :slug, uniqueness: { case_sensitive: false }
+  validates :name, uniqueness: { case_sensitive: false }
+
+  #callbacks
+  before_validation do
+    self.slug = self.name.parameterize
+  end
 end

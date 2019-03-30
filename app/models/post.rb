@@ -11,7 +11,8 @@ class Post < ApplicationRecord
   #validation
   validates_presence_of :title, :slug, :body, :image
   validates :user_id, numericality: { only_integer: true }, allow_nil: true
-  validates :movie_id, numericality: { only_integer: true }, allow_nil: true
+  # validates :movie_id, presence: { unless: :imdb_id, on: :create }, numericality: { only_integer: true }, allow_nil: true
+  # validates :imdb_id, presence: { unless: :movie_id, on: :create }, format: { with: /tt\\d{7}/, message: "only allows letters" }, allow_nil: true
   validates :slug, length: { minimum: 2, maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :title, length: { minimum: 2, maximum: 255 }, uniqueness: { scope: :is_published, message: "Post with this title already exists", case_sensitive: false }
   # validates :body,
@@ -25,17 +26,32 @@ class Post < ApplicationRecord
   validates :published_at, allow_nil: true, :timeliness => { :type => :date}
   validates_associated :tags
 
+  #callbacks
+  before_validation do
+    if self.slug.blank?
+      self.slug = self.title.parameterize
+    end
+  end
 
-  def self.new_with_relations(post_params, movie_id, tags)
+  def self.new_with_relations(post_params, category_ids, tags, imdb_id = nil, movie_id = nil)
     post = Post.create!(post_params)
 
-    if movie_id
-      post.movie << movie_id
+    if category_ids
+      post.category_ids = category_ids
     end
 
     if tags
       tag_ids = find_or_create_tags(tags)
-      post.tag_ids = (tag_ids)
+      post.tag_ids = tag_ids
+    end
+
+    if imdb_id
+      movie = FindCreateImdbMovie.new(imdb_id).call
+        if movie
+          post.movie = movie
+      end
+    elsif movie_id
+      post.movie = movie_id
     end
 
     return post
@@ -47,7 +63,7 @@ class Post < ApplicationRecord
   def self.find_or_create_tags(tags)
     tag_ids = []
     tags.each do |tag|
-      tag = Actor.find_or_create_by!(name: tag)
+      tag = Tag.find_or_create_by!(name: tag)
       tag_ids.push(tag.id)
     end
     tag_ids

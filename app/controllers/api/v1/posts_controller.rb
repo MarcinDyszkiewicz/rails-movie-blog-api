@@ -6,9 +6,9 @@ def index
 end
 
 def create
-  @post = Post.new_with_relations(post_params, params[:movie_id], params[:tags])
+  @post = Post.new_with_relations(post_params, params[:category_ids], params[:tags], params[:imdb_id], params[:movie_id])
   if @post
-    render json: {data: post, message: "Post created", success: true}, status: :created
+    render json: {data: @post, message: "Post created", success: true}, status: :created
   else
     render json: {data: nil, message: @post.errors, success: false}, status: :unprocessable_entity
   end
@@ -35,6 +35,23 @@ def destroy
   else
     render json: {data: nil, message: post.errors, success: false}, status: :unprocessable_entity
   end
+end
+
+def search
+  @posts = Post.select("id, title, short_description")
+               .where("title LIKE ?", "#{params[:title]}%")
+               .where(is_published: true)
+  render json: {data: @posts, message: "Loaded posts", success: true}, status: :ok
+end
+
+def popular
+  @posts = Post.joins(:categories).where(categories: {name: "popular"}).select("posts.id, title, short_description").limit(5)
+  render json: {data: @posts, message: "Loaded popular posts", success: true}, status: :ok
+end
+
+def hot
+  @posts = Post.joins(:categories).where(categories: {name: "popular"}).select("posts.id, title, short_description").limit(5)
+  render json: {data: @posts, message: "Loaded hot posts", success: true}, status: :ok
 end
 
   private

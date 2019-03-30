@@ -19,7 +19,14 @@ Rails.application.routes.draw do
         resources :comments, except: :show
       end
       resources :movies, concerns: :commentable
-      resources :posts, concerns: :commentable
+      resources :posts do
+        concerns :commentable
+        collection do
+          get 'search'
+          get 'popular'
+          get 'hot'
+        end
+      end
       resources :actors
       resources :director
       resources :likes
