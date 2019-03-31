@@ -96,12 +96,12 @@ ActiveRecord::Schema.define(version: 2019_03_04_205751) do
 
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "likeable_type"
-    t.bigint "likeable_id"
-    t.integer "type"
+    t.bigint "comment_id"
+    t.integer "like_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id"
+    t.index ["comment_id"], name: "index_likes_on_comment_id"
+    t.index ["user_id", "comment_id"], name: "index_likes_on_user_id_and_comment_id", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
@@ -178,5 +178,6 @@ ActiveRecord::Schema.define(version: 2019_03_04_205751) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "likes", "comments"
   add_foreign_key "likes", "users"
 end

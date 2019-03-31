@@ -1,10 +1,12 @@
-class LikesController < ApplicationController
+class Api::V1::LikesController < ApplicationController
   before_action :set_like, only: [:show, :update, :destroy]
 
   # GET /likes
   # GET /likes.json
   def index
-    @likes = Like.all
+    comment = Comment.find(params[:comment_id])
+
+    render json: {data: comment.likes, message: "All comment likes", success: true}, status: :ok
   end
 
   # GET /likes/1
@@ -15,12 +17,17 @@ class LikesController < ApplicationController
   # POST /likes
   # POST /likes.json
   def create
-    @like = Like.new(like_params)
-
-    if @like.save
-      render :show, status: :created, location: @like
+    comment = Comment.find(params[:comment_id])
+    user = current_user
+    @like = Like.create_like_movie(like_params, comment, user)
+    if @like
+      if @like.save
+        render json: {data: comment.likes, message: "Comment Liked", success: true}, status: :created
+      else
+        render json: {data: nil, message: @like.errors, success: false}, status: :unprocessable_entity
+      end
     else
-      render json: @like.errors, status: :unprocessable_entity
+      render json: {data: comment.likes, message: "Ok", success: true}, status: :ok
     end
   end
 
@@ -48,6 +55,6 @@ class LikesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def like_params
-      params.require(:like).permit(:user_id, :likeable_id, :likeable_type, :type)
+      params.require(:like).permit(:like_type)
     end
 end

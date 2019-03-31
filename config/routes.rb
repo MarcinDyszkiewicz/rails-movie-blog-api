@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :likes
   devise_for :users,
               path: '',
                   path_names: {
@@ -29,9 +28,10 @@ Rails.application.routes.draw do
       end
       resources :actors
       resources :director
-      resources :likes
-
       resources :genres
+      resources :comments, only: [:index, :show] do
+        resources :likes, only: [:index, :create]
       end
+    end
   end
 end

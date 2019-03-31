@@ -2,6 +2,7 @@ class Comment < ApplicationRecord
   #relations
   belongs_to :commentable, polymorphic: true
   belongs_to :user
+  has_many :likes
 
   #validations
   validates :body, presence: true, length: { minimum: 5, maximum: 2000}, uniqueness: { scope: [:user, :commentable_type, :commentable_id], message: "You Can't duplicate comments", case_sensitive: false }

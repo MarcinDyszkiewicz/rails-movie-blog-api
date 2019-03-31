@@ -32,5 +32,14 @@ imdb_genre_list = [
     %w(War war),
 ]
 imdb_genre_list.each do |name, slug|
-  Genre.find_or_create_by!(name: name, slug: slug)
+  Genre.create(name: name, slug: slug)
+end
+
+category_list = [
+    %w(hot hot),
+    %w(popular popular),
+]
+
+category_list.each do |name, slug|
+  Category.create(name: name, slug: slug)
 end
