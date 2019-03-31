@@ -5,3 +5,32 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+imdb_genre_list = [
+    %w(Action action),
+    %w(Adventure adventure),
+    %w(Animation animation),
+    %w(Biography biography),
+    %w(Comedy comedy),
+    %w(Crime crime),
+    %w(Documentary documentary),
+    %w(Drama drama),
+    %w(Family family),
+    %w(Fantasy fantasy),
+    %w(Film Noir film-noir),
+    %w(History history),
+    %w(Horror horror),
+    %w(Music music),
+    %w(Musical musical),
+    %w(Mystery mystery),
+    %w(Romance romance),
+    %w(Sci-Fi sci-fi),
+    %w(Short short),
+    %w(Sport sport),
+    %w(Superhero superhero),
+    %w(Thriller thriller),
+    %w(Western western),
+    %w(War war),
+]
+imdb_genre_list.each do |name, slug|
+  Genre.find_or_create_by!(name: name, slug: slug)
+end

@@ -43,6 +43,6 @@ private
   # movie strong params
   # @return [Object]
   def movie_params
-    params.require(:movie).permit(:slug, :title, :year, :released, :runtime, :plot, :review, :poster, :rotten_tomatoes_rating, :metacritic_rating, :imdb_raiting)
+    params.require(:movie).permit(*STRONG_PARAMS)
   end
 end
