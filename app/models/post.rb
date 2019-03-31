@@ -11,8 +11,7 @@ class Post < ApplicationRecord
   #validation
   validates_presence_of :title, :slug, :body, :image
   validates :user_id, numericality: { only_integer: true }, allow_nil: true
-  # validates :movie_id, presence: { unless: :imdb_id, on: :create }, numericality: { only_integer: true }, allow_nil: true
-  # validates :imdb_id, presence: { unless: :movie_id, on: :create }, format: { with: /tt\\d{7}/, message: "only allows letters" }, allow_nil: true
+  validates :movie_id, numericality: { only_integer: true }, allow_nil: true
   validates :slug, length: { minimum: 2, maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :title, length: { minimum: 2, maximum: 255 }, uniqueness: { scope: :is_published, message: "Post with this title already exists", case_sensitive: false }
   # validates :body,
