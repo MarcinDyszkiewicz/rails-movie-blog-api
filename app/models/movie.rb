@@ -2,6 +2,7 @@ class Movie < ApplicationRecord
   #relations
   has_many :posts
   has_many :comments, as: :commentable
+  has_many :ratings, as: :ratingable
   has_and_belongs_to_many :actors
   has_and_belongs_to_many :directors
   has_and_belongs_to_many :genres
@@ -32,7 +33,7 @@ class Movie < ApplicationRecord
     end
   end
 
-  STRONG_PARAMS = :slug, :title, :year, :released, :runtime, :plot, :review, :poster, :rotten_tomatoes_rating, :metacritic_rating, :imdb_raiting, :imdb_id
+  STRONG_PARAMS = :slug, :title, :year, :released, :runtime, :plot, :review, :poster, :rotten_tomatoes_rating, :metacritic_rating, :imdb_raiting, :imdb_id, :rate
 
   def self.new_with_relations(movie_params, actors, director, genre_ids)
     movie = Movie.create!(movie_params)

@@ -39,6 +39,17 @@ def destroy
   end
 end
 
+def rate
+  movie = Movie.find(params[:id])
+    user = current_user
+    rating = movie.ratings.new(rate: params[:rate], user_id: user.id)
+    if rating.save
+    render json: {data: rating, message: "Movie rated", success: true}, status: :ok
+  else
+    render json: {data: nil, message: rating.errors, success: false}, status: :unprocessable_entity
+    end
+end
+
 private
   # movie strong params
   # @return [Object]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_04_205751) do
+ActiveRecord::Schema.define(version: 2019_04_28_151350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,18 @@ ActiveRecord::Schema.define(version: 2019_03_04_205751) do
     t.index ["tag_id", "post_id"], name: "index_posts_tags_on_tag_id_and_post_id"
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "rate", limit: 2
+    t.string "ratingable_type"
+    t.bigint "ratingable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id"
+    t.index ["user_id", "ratingable_id", "ratingable_type"], name: "index_ratings_on_user_id_and_ratingable_id_and_ratingable_type", unique: true
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "slug"
     t.string "name"
@@ -180,4 +192,5 @@ ActiveRecord::Schema.define(version: 2019_03_04_205751) do
 
   add_foreign_key "likes", "comments"
   add_foreign_key "likes", "users"
+  add_foreign_key "ratings", "users"
 end

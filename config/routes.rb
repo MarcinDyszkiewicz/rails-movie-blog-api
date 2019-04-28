@@ -17,7 +17,12 @@ Rails.application.routes.draw do
       concern :commentable do
         resources :comments, except: :show
       end
-      resources :movies, concerns: :commentable
+      resources :movies do
+        concerns :commentable
+          member do
+            post 'rate'
+          end
+        end
       resources :posts do
         concerns :commentable
         collection do

@@ -4,6 +4,7 @@
       <w>commentable</w>
       <w>imdb</w>
       <w>omdb</w>
+      <w>ratingable</w>
     </words>
   </dictionary>
 </component>

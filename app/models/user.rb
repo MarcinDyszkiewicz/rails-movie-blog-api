@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   #relations
   has_many :posts
+  has_many :comments
+  has_many :likes
+  has_many :ratings
 end
