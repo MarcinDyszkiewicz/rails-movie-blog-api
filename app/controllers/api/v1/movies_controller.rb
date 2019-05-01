@@ -6,7 +6,7 @@ def index
 end
 
 def create
-  @movie = Movie.new_with_relations(movie_params, params[:actors], params[:director], params[:genre_ids])
+  @movie = Movie.new_with_relations(movie_params, params[:actors], params[:director], params[:genres])
   if @movie
     @message = "Movie Created"
     render :show, status: :created
@@ -39,10 +39,19 @@ def destroy
   end
 end
 
+def rating
+  movie = Movie.find(params[:id])
+  ratings = movie.ratings
+  rating = ratings.average(:rate)
+  votes_count = ratings.count
+
+  render json: {data: {:rating => rating.to_f, :votes_count => votes_count}, message: "Movie rating", success: true}, status: :ok
+end
+
 def rate
   movie = Movie.find(params[:id])
-    user = current_user
-    rating = movie.ratings.new(rate: params[:rate], user_id: user.id)
+  user = User.first
+  rating = movie.ratings.new(rate: params[:rate], user_id: user.id)
     if rating.save
     render json: {data: rating, message: "Movie rated", success: true}, status: :ok
   else
@@ -54,6 +63,6 @@ private
   # movie strong params
   # @return [Object]
   def movie_params
-    params.require(:movie).permit(*STRONG_PARAMS)
+    params.require(:movie).permit(*Movie::STRONG_PARAMS)
   end
 end

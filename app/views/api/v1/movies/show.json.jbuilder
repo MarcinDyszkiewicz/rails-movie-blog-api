@@ -25,7 +25,7 @@ json.data do
   end
   json.genres @movie.genres do |genre|
     json.id genre.id
-    json.full_name genre.name
+    json.name genre.name
     json.slug genre.slug
   end
 end

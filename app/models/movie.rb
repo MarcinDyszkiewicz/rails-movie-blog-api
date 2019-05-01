@@ -35,7 +35,7 @@ class Movie < ApplicationRecord
 
   STRONG_PARAMS = :slug, :title, :year, :released, :runtime, :plot, :review, :poster, :rotten_tomatoes_rating, :metacritic_rating, :imdb_raiting, :imdb_id, :rate
 
-  def self.new_with_relations(movie_params, actors, director, genre_ids)
+  def self.new_with_relations(movie_params, actors, director, genre_names)
     movie = Movie.create!(movie_params)
 
     if actors
@@ -48,14 +48,15 @@ class Movie < ApplicationRecord
       movie.directors << new_director
     end
 
-    if genre_ids
+    if genre_names
+      genre_ids = find_genres(genre_names)
       movie.genre_ids = genre_ids
     end
 
     return movie
   end
 
-  def update_with_relations(movie_params, actors, director, genre_ids)
+  def update_with_relations(movie_params, actors, director, genre_names)
     movie = self
     movie.update!(movie_params)
 
@@ -73,7 +74,8 @@ class Movie < ApplicationRecord
       movie.director_ids = []
     end
 
-    if genre_ids
+    if genre_names
+      genre_ids = find_genres(genre_names)
       movie.genre_ids = genre_ids
     else
       movie.genre_ids = []
@@ -101,5 +103,14 @@ class Movie < ApplicationRecord
       actor_ids.push(actor.id)
     end
     actor_ids
+  end
+
+  def self.find_genres(genre_names)
+    genre_ids = []
+    genre_names.each do |genre_name|
+      genre = Genre.find_by!(name: genre_name)
+      genre_ids.push(genre.id)
+    end
+    genre_ids
   end
 end

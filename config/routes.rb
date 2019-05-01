@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :movies do
         concerns :commentable
           member do
+            get 'rating'
             post 'rate'
           end
         end
