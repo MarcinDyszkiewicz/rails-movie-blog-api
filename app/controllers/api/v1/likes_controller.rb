@@ -17,17 +17,20 @@ class Api::V1::LikesController < ApplicationController
   # POST /likes
   # POST /likes.json
   def create
-    comment = Comment.find(params[:comment_id])
+    @comment = Comment.find(params[:comment_id])
     user = current_user
-    @like = Like.create_like_movie(like_params, comment, user)
+    @like = Like.create_like_movie(like_params, @comment, user)
     if @like
       if @like.save
-        render json: {data: comment.likes, message: "Comment Liked", success: true}, status: :created
+        render :show, status: :ok
+        # render json: {data: comment.likes, message: "Comment Liked", success: true}, status: :created
       else
         render json: {data: nil, message: @like.errors, success: false}, status: :unprocessable_entity
       end
     else
-      render json: {data: comment.likes, message: "Ok", success: true}, status: :ok
+      render :show, status: :ok
+
+      # render json: {data: comment.likes, message: "Ok", success: true}, status: :ok
     end
   end
 

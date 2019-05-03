@@ -45,4 +45,13 @@ class Comment < ApplicationRecord
     end
   end
 
+  def count_likes
+    likes = self.likes.where(like_type: Like::TYPE_LIKE).count
+    dislikes = self.likes.where(like_type: Like::TYPE_DISLIKE).count
+    likes - dislikes
+  end
+
+  def user_like_type(user_id)
+    self.likes.where(user_id: user_id).first.try(:like_type)
+  end
 end

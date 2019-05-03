@@ -4,7 +4,8 @@ class Api::V1::CommentsController < ApplicationController
   def index
     @commentable_model = find_commentable
     @comments = @commentable_model.comments
-    render json: {data: @comments, message: "Loaded all comments", success: true}, status: :ok
+    @user = current_user
+    render :index, status: :ok
   end
 
   def create
