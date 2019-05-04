@@ -37,6 +37,9 @@ Rails.application.routes.draw do
       resources :genres
       resources :comments, only: [:index, :show] do
         resources :likes, only: [:index, :create]
+        member do
+          get 'child-comments'
+        end
       end
     end
   end

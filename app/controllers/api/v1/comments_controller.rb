@@ -3,7 +3,7 @@ class Api::V1::CommentsController < ApplicationController
 
   def index
     @commentable_model = find_commentable
-    @comments = @commentable_model.comments
+    @comments = @commentable_model.comments.where(comment_parent_id: nil)
     @user = current_user
     render :index, status: :ok
   end
@@ -47,8 +47,10 @@ class Api::V1::CommentsController < ApplicationController
     render json: {data: movies, message: "Loaded all movies", success: true}, status: :ok
   end
 
-  def index_for_movie
-
+  def child_comments
+    @comments = Comment.where(comment_parent_id: params[:id])
+    @user = current_user
+    render :index, status: :ok
   end
 
   private

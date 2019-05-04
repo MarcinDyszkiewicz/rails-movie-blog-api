@@ -45,6 +45,10 @@ class Comment < ApplicationRecord
     end
   end
 
+  def child_comments
+    Comment.where(comment_parent_id: self.id)
+  end
+
   def count_likes
     likes = self.likes.where(like_type: Like::TYPE_LIKE).count
     dislikes = self.likes.where(like_type: Like::TYPE_DISLIKE).count
