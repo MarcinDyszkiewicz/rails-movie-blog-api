@@ -1,7 +1,11 @@
 class Api::V1::MoviesController < ApplicationController
 
 def index
-  @movies = Movie.includes(:actors, :directors, :genres).limit(20)
+  @movies = Movie.listing_with_search(request.query_parameters)
+  @omdb_movies = OmdbMovieFinder.new.find_movies_by_title(params[:title])
+  # abort @omdb_movies.inspect
+  #
+  # najpierw zmapować, potem zrobić merge, wazniejsze te z bazy
   render :index, status: :ok
 end
 

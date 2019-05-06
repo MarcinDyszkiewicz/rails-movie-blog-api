@@ -84,6 +84,17 @@ class Movie < ApplicationRecord
     movie
   end
 
+  def self.listing_with_search(params)
+    if  params[:title]
+      self.where(title: params[:title]).limit(13)
+    elsif params[:year]
+      self.where(year: params[:year]).limit(13)
+    elsif params[:title] || params[:year]
+        self.where(title: params[:title]).or(self.where(year: params[:year])).limit(13)
+    else
+      self.order(:id).limit(13)
+    end
+  end
 
   private
 
