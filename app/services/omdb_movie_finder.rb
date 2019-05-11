@@ -1,10 +1,6 @@
 class OmdbMovieFinder
   require 'rest-client'
 
-  # def initialize(imdb_id)
-  #   @imdb_id = imdb_id
-  # end
-
   def find_movies_by_title(title)
     response = RestClient.get "http://www.omdbapi.com/?apikey=c9d3739b", {params: {type: "movie", s: title}}
     hash = JSON.parse(response.body)
@@ -13,10 +9,7 @@ class OmdbMovieFinder
         movies_array = hash["Search"]
         movies_array.each do |movie|
           movie.transform_keys! {|key| key.to_s.underscore}
-          movie.symbolize_keys!
         end
-        # abort movies_array.inspect
-        # hash.symbolize_keys!
       end
 
     end

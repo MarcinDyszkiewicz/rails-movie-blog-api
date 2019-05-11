@@ -1,11 +1,11 @@
 class Api::V1::MoviesController < ApplicationController
 
 def index
-  @movies = Movie.listing_with_search(request.query_parameters)
-  @omdb_movies = OmdbMovieFinder.new.find_movies_by_title(params[:title])
-  # abort @omdb_movies.inspect
-  #
-  # najpierw zmapować, potem zrobić merge, wazniejsze te z bazy
+  database_movies = Movie.listing_with_search(request.query_parameters)
+  omdb_movies = OmdbMovieFinder.new.find_movies_by_title(params[:title])
+  @movies = database_movies | omdb_movies
+  @movies.uniq { |movie| movie['imdb_id']}
+
   render :index, status: :ok
 end
 

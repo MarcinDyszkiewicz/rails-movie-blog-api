@@ -85,8 +85,8 @@ class Movie < ApplicationRecord
   end
 
   def self.listing_with_search(params)
-    if  params[:title]
-      self.where(title: params[:title]).limit(13)
+    if params[:title]
+      self.where("title ILIKE :title", title: params[:title]).limit(13)
     elsif params[:year]
       self.where(year: params[:year]).limit(13)
     elsif params[:title] || params[:year]

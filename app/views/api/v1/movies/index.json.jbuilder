@@ -1,14 +1,14 @@
 json.data do
   json.array! @movies do |movie|
-    json.id movie.id
-    json.slug movie.slug
-    json.title movie.title
-    json.year movie.year
+    json.id movie['id']
+    json.slug movie['slug']
+    json.title movie['title']
+    json.year movie['year']
     # json.released movie.released
     # json.runtime movie.runtime
     # json.plot movie.plot
     # json.review movie.review
-    json.poster movie.poster
+    json.poster movie['poster']
     # json.rotten_tomatoes_rating movie.rotten_tomatoes_rating
     # json.metacritic_rating movie.metacritic_rating
     # json.imdb_raiting movie.imdb_raiting

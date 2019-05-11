@@ -23,7 +23,7 @@ Rails.application.routes.draw do
             get 'rating'
             post 'rate'
           end
-        end
+      end
       resources :posts do
         concerns :commentable
         collection do
